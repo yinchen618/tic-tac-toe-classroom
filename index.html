@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>井字遊戲教學示範（Tic-Tac-Toe）</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>井字遊戲教學示範</h1>
+      <p class="subtitle">極小化極大演算法（Minimax）即時戰術分析</p>
+    </header>
+
+    <section class="controls" aria-label="遊戲控制面板">
+      <div class="mode-group" role="group" aria-label="對戰模式選擇">
+        <button type="button" id="mode-pve" class="active" aria-pressed="true">
+          單人對抗電腦
+        </button>
+        <button type="button" id="mode-pvp" aria-pressed="false">
+          雙人同機對戰
+        </button>
+      </div>
+      <button type="button" id="restart-btn">重新開始</button>
+    </section>
+
+    <section id="status-display" class="status-box" aria-live="polite">
+      目前回合：玩家 X
+    </section>
+
+    <section class="board" id="board" role="grid" aria-label="井字遊戲棋盤（格子編號 1 至 9）">
+      <button type="button" class="cell" data-index="0" aria-label="第 1 格，空白">
+        <span class="cell-number">1</span>
+        <span class="cell-mark"></span>
+      </button>
+      <button type="button" class="cell" data-index="1" aria-label="第 2 格，空白">
+        <span class="cell-number">2</span>
+        <span class="cell-mark"></span>
+      </button>
+      <button type="button" class="cell" data-index="2" aria-label="第 3 格，空白">
+        <span class="cell-number">3</span>
+        <span class="cell-mark"></span>
+      </button>
+      <button type="button" class="cell" data-index="3" aria-label="第 4 格，空白">
+        <span class="cell-number">4</span>
+        <span class="cell-mark"></span>
+      </button>
+      <button type="button" class="cell" data-index="4" aria-label="第 5 格，空白">
+        <span class="cell-number">5</span>
+        <span class="cell-mark"></span>
+      </button>
+      <button type="button" class="cell" data-index="5" aria-label="第 6 格，空白">
+        <span class="cell-number">6</span>
+        <span class="cell-mark"></span>
+      </button>
+      <button type="button" class="cell" data-index="6" aria-label="第 7 格，空白">
+        <span class="cell-number">7</span>
+        <span class="cell-mark"></span>
+      </button>
+      <button type="button" class="cell" data-index="7" aria-label="第 8 格，空白">
+        <span class="cell-number">8</span>
+        <span class="cell-mark"></span>
+      </button>
+      <button type="button" class="cell" data-index="8" aria-label="第 9 格，空白">
+        <span class="cell-number">9</span>
+        <span class="cell-mark"></span>
+      </button>
+    </section>
+
+    <section class="advisor-box" id="advisor-box" aria-live="polite">
+      <div class="advisor-title">最佳步數建議與戰術解析（Minimax）</div>
+      <div class="advisor-move" id="advisor-move">建議下在第 5 格</div>
+      <div class="advisor-reason" id="advisor-reason">
+        戰術原因：佔領中心（第 5 格涵蓋 4 條連線方向，控制力最強）。
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
