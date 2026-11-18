@@ -2,77 +2,189 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>遊戲說明與戰術指南 — 井字遊戲教學示範</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title id="page-title">遊戲說明與戰術指南 — 井字遊戲教學示範</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .help-section {
-      border: 2px solid #000000;
-      padding: 14px;
-      background-color: #ffffff;
-    }
-    .help-section h2 {
-      font-size: 1.15rem;
-      font-weight: 800;
-      border-bottom: 1px solid #000000;
-      padding-bottom: 6px;
-      margin-bottom: 10px;
-    }
-    .help-section ul {
-      padding-left: 20px;
-    }
-    .help-section li {
-      margin-bottom: 8px;
-    }
-    .nav-link {
-      display: inline-block;
-      color: #000000;
-      background-color: #ffffff;
-      border: 2px solid #000000;
-      padding: 8px 14px;
-      font-weight: 700;
-      text-decoration: none;
-      text-align: center;
-    }
-    .nav-link:hover {
-      background-color: #f0f0f0;
-    }
-  </style>
 </head>
 <body>
   <main class="container">
     <header>
-      <h1>遊戲說明與戰術指南</h1>
-      <p class="subtitle">雙資料夾團隊協作模擬（Two-Folder Simulation）教學頁面</p>
+      <h1 id="header-title">遊戲說明與戰術指南</h1>
+      <p class="subtitle" id="header-subtitle">課堂教學與 Minimax 演算法說明頁面</p>
     </header>
 
-    <section class="help-section" aria-label="對戰模式說明">
-      <h2>一、兩種對戰模式說明</h2>
+    <section class="lang-bar" aria-label="語言切換 / Language Selection">
+      <label for="lang-select" class="lang-label" id="lang-label">
+        <span aria-hidden="true">🌐</span> 語言 / Language:
+      </label>
+      <select id="lang-select" class="lang-select" aria-labelledby="lang-label">
+        <option value="zh-Hant">繁體中文 (Chinese)</option>
+        <option value="en">English</option>
+        <option value="ja">日本語 (Japanese)</option>
+        <option value="id">Bahasa Indonesia</option>
+      </select>
+    </section>
+
+    <section class="help-section" aria-label="對戰模式說明" id="sec-modes">
+      <h2 id="sec1-title">一、兩種對戰模式說明</h2>
       <ul>
         <li>
-          <strong>單人對抗電腦</strong>：玩家執 <code>X</code> 先手，電腦執 <code>O</code> 後手。電腦採用確定性極小化極大演算法（Minimax）決策，在電腦思考期間與對局結束後會自動鎖定棋盤，避免誤觸。
+          <strong id="mode-pve-title">單人對抗電腦：</strong>
+          <span id="mode-pve-desc">玩家執 <code>X</code> 先手，電腦執 <code>O</code> 後手。電腦採用確定性極小化極大演算法（Minimax）決策，在電腦思考期間與對局結束後會自動鎖定棋盤，避免誤觸。</span>
         </li>
         <li>
-          <strong>雙人同機對戰</strong>：兩位玩家在同一台裝置輪流使用 <code>X</code> 與 <code>O</code> 下棋，適合課堂上兩人對弈並觀察演算法給雙方的即時建議。
+          <strong id="mode-pvp-title">雙人同機對戰：</strong>
+          <span id="mode-pvp-desc">兩位玩家在同一台裝置輪流使用 <code>X</code> 與 <code>O</code> 下棋，適合課堂上兩人對弈並觀察演算法給雙方的即時建議。</span>
         </li>
       </ul>
     </section>
 
-    <section class="help-section" aria-label="如何閱讀戰術建議">
-      <h2>二、如何閱讀即時戰術建議（Minimax）</h2>
-      <p style="margin-bottom: 8px;">
+    <section class="help-section" aria-label="如何閱讀戰術建議" id="sec-tactics">
+      <h2 id="sec2-title">二、如何閱讀即時戰術建議（Minimax）</h2>
+      <p id="sec2-intro" style="margin-bottom: 8px;">
         棋盤左上角標有 <strong>1 至 9 號</strong>格位，畫面下方的「最佳步數建議與戰術解析」會在每一步後標出粗黑內框推薦格，並依據真實盤面給出五大戰術原因：
       </p>
       <ul>
-        <li><strong>立即獲勝</strong>：該格可直接連成三子贏得本局。</li>
-        <li><strong>阻擋對手</strong>：對手已聽牌，必須立即佔領該格阻止對手下一手獲勝。</li>
-        <li><strong>創造／破解岔路（雙重威脅）</strong>：同時製造兩條聽牌路線讓對手無法兼顧，或主動進攻以阻止對手形成雙活。</li>
-        <li><strong>佔領中心</strong>：優先控制第 5 格（涵蓋橫、直、兩條對角線共 4 條連線）。</li>
-        <li><strong>佔領角落</strong>：佔領第 1、3、7、9 格（各涵蓋 3 條連線），建立穩固攻守據點。</li>
+        <li id="tactic-win"><strong>立即獲勝</strong>：該格可直接連成三子贏得本局。</li>
+        <li id="tactic-block"><strong>阻擋對手</strong>：對手已聽牌，必須立即佔領該格阻止對手下一手獲勝。</li>
+        <li id="tactic-fork"><strong>創造／破解岔路（雙重威脅）</strong>：同時製造兩條聽牌路線讓對手無法兼顧，或主動進攻以阻止對手形成雙活。</li>
+        <li id="tactic-center"><strong>佔領中心</strong>：優先控制第 5 格（涵蓋橫、直、兩條對角線共 4 條連線）。</li>
+        <li id="tactic-corner"><strong>佔領角落</strong>：佔領第 1、3、7、9 格（各涵蓋 3 條連線），建立穩固攻守據點。</li>
       </ul>
     </section>
 
-    <a class="nav-link" href="index.html">← 返回井字遊戲首頁</a>
+    <a class="nav-link" href="index.html" id="back-link">← 返回井字遊戲首頁</a>
   </main>
+
+  <script>
+    (() => {
+      const HELP_TRANSLATIONS = {
+        'zh-Hant': {
+          pageTitle: '遊戲說明與戰術指南 — 井字遊戲教學示範',
+          headerTitle: '遊戲說明與戰術指南',
+          headerSubtitle: '課堂教學與 Minimax 演算法說明頁面',
+          langLabel: '語言 / Language:',
+          sec1Title: '一、兩種對戰模式說明',
+          modePveTitle: '單人對抗電腦：',
+          modePveDesc: '玩家執 X 先手，電腦執 O 後手。電腦採用確定性極小化極大演算法（Minimax）決策，在電腦思考期間與對局結束後會自動鎖定棋盤，避免誤觸。',
+          modePvpTitle: '雙人同機對戰：',
+          modePvpDesc: '兩位玩家在同一台裝置輪流使用 X 與 O 下棋，適合課堂上兩人對弈並觀察演算法給雙方的即時建議。',
+          sec2Title: '二、如何閱讀即時戰術建議（Minimax）',
+          sec2Intro: '棋盤左上角標有 1 至 9 號格位，畫面下方的「最佳步數建議與戰術解析」會在每一步後標出粗黑內框推薦格，並依據真實盤面給出五大戰術原因：',
+          tacticWin: '立即獲勝：該格可直接連成三子贏得本局。',
+          tacticBlock: '阻擋對手：對手已聽牌，必須立即佔領該格阻止對手下一手獲勝。',
+          tacticFork: '創造／破解岔路（雙重威脅）：同時製造兩條聽牌路線讓對手無法兼顧，或主動進攻以阻止對手形成雙活。',
+          tacticCenter: '佔領中心：優先控制第 5 格（涵蓋橫、直、兩條對角線共 4 條連線）。',
+          tacticCorner: '佔領角落：佔領第 1、3、7、9 格（各涵蓋 3 條連線），建立穩固攻守據點。',
+          backLink: '← 返回井字遊戲首頁',
+        },
+        'en': {
+          pageTitle: 'Game Instructions & Tactical Guide — Tic-Tac-Toe Classroom Demo',
+          headerTitle: 'Game Instructions & Tactical Guide',
+          headerSubtitle: 'Classroom Tutorial & Minimax Algorithm Guide',
+          langLabel: 'Language:',
+          sec1Title: '1. Game Modes Explanation',
+          modePveTitle: '1 Player vs Computer: ',
+          modePveDesc: 'Player plays X first, Computer plays O second. The computer uses a deterministic Minimax algorithm. The board locks during computer turns and after game over to prevent accidental clicks.',
+          modePvpTitle: '2 Players (Pass & Play): ',
+          modePvpDesc: 'Two players take turns on the same device using X and O, perfect for classroom demonstrations and observing the Minimax advisor for both sides.',
+          sec2Title: '2. How to Read Real-time Tactical Advice (Minimax)',
+          sec2Intro: 'Cells are numbered 1 to 9 in the top-left corner. The tactical analysis panel highlights the recommended cell with a bold inner border and provides truthful explanations based on 5 tactical categories:',
+          tacticWin: 'Immediate Win: Completes 3-in-a-row to win immediately.',
+          tacticBlock: 'Block Opponent: Opponent threatens to win; you must occupy that cell to block them.',
+          tacticFork: 'Create / Prevent Fork (Double Threat): Creates two winning paths at once, or actively stops the opponent from setting up a double threat.',
+          tacticCenter: 'Take the Center: Controls cell 5 (covering 4 winning lines across rows, columns, and diagonals).',
+          tacticCorner: 'Take a Corner: Secures cells 1, 3, 7, or 9 (covering 3 lines each) to establish a solid foundation.',
+          backLink: '← Back to Tic-Tac-Toe Home',
+        },
+        'ja': {
+          pageTitle: 'ゲーム説明と戦術ガイド — 三目並べ学習デモ',
+          headerTitle: 'ゲーム説明と戦術ガイド',
+          headerSubtitle: '授業用チュートリアルと Minimax アルゴリズム解説',
+          langLabel: '言語 / Language:',
+          sec1Title: '1. 2つの対戦モードの説明',
+          modePveTitle: '1人プレイ（vs コンピュータ）：',
+          modePveDesc: 'プレイヤーが X（先手）、コンピュータが O（後手）を担当します。コンピュータは確定的なミニマックス法（Minimax）を用いて思考します。思考中および終局後は誤操作防止のため盤面がロックされます。',
+          modePvpTitle: '2人プレイ（交互に対局）：',
+          modePvpDesc: '1台の端末で2人のプレイヤーが交互に X と O を打って対戦します。授業での対戦や、双方へのリアルタイムAI助言を観察するのに最適です。',
+          sec2Title: '2. リアルタイム戦術解説（Minimax）の読み方',
+          sec2Intro: '盤面の左上には 1〜9 のマス番号がついています。下部の戦術解説エリアには黒い枠線でおすすめマスが表示され、盤面に応じた5大戦術理由を解説します：',
+          tacticWin: '即時勝利：そのマスに打つことで直ちに3目並び、勝利が確定します。',
+          tacticBlock: '相手の阻止：相手がマスでリーチをかけているため、直ちにそのマスを塞ぎます。',
+          tacticFork: '岔路（両建て）の作成・阻止：相手が同時に防ぎきれない2つのリーチを同時に作るか、相手の両建てを未然に防ぎます。',
+          tacticCenter: '中央を確保：4方向のラインに関与する第5マスを最優先で抑えます。',
+          tacticCorner: '角を確保：第1、3、7、9マス（各3方向）を押さえて攻守の拠点を築きます。',
+          backLink: '← 三目並べトップに戻る',
+        },
+        'id': {
+          pageTitle: 'Panduan Permainan & Taktik — Demonstrasi Kelas Tic-Tac-Toe',
+          headerTitle: 'Panduan Permainan & Taktik',
+          headerSubtitle: 'Tutorial Kelas & Panduan Algoritma Minimax',
+          langLabel: 'Bahasa:',
+          sec1Title: '1. Penjelasan Dua Mode Permainan',
+          modePveTitle: '1 Pemain vs Komputer: ',
+          modePveDesc: 'Pemain memainkan X (pertama), Komputer memainkan O (kedua). Komputer menggunakan algoritma Minimax deterministik. Papan terkunci selama komputer berpikir dan setelah permainan selesai untuk mencegah salah klik.',
+          modePvpTitle: '2 Pemain (Satu Perangkat): ',
+          modePvpDesc: 'Dua pemain bergiliran pada perangkat yang sama menggunakan X dan O, cocok untuk demonstrasi kelas dan mengamati saran Minimax untuk kedua pihak.',
+          sec2Title: '2. Cara Membaca Saran Taktis Real-time (Minimax)',
+          sec2Intro: 'Petak diberi nomor 1 sampai 9 di sudut kiri atas. Panel analisis di bawah menyorot petak yang direkomendasikan dengan bingkai hitam tebal dan menjelaskan 5 kategori taktis:',
+          tacticWin: 'Menang Langsung: Membentuk 3 sebaris untuk langsung menang.',
+          tacticBlock: 'Blokir Lawan: Lawan mengancam menang; harus mengamankan petak tersebut untuk memblokirnya.',
+          tacticFork: 'Buat / Cegah Cabang (Ancaman Ganda): Membuat dua jalur kemenangan sekaligus, atau mencegah lawan membuat ancaman ganda.',
+          tacticCenter: 'Kuasai Tengah: Mengontrol petak 5 (mencakup 4 arah garis horizontal, vertikal, dan diagonal).',
+          tacticCorner: 'Kuasai Sudut: Mengamankan petak 1, 3, 7, atau 9 (masing-masing 3 jalur) untuk membangun posisi kuat.',
+          backLink: '← Kembali ke Beranda Tic-Tac-Toe',
+        },
+      };
+
+      const langSelect = document.getElementById('lang-select');
+      let currentLang = 'zh-Hant';
+
+      try {
+        const saved = localStorage.getItem('ttt_lang');
+        if (saved && HELP_TRANSLATIONS[saved]) {
+          currentLang = saved;
+        }
+      } catch (e) {}
+
+      function render(lang) {
+        const d = HELP_TRANSLATIONS[lang] || HELP_TRANSLATIONS['zh-Hant'];
+        document.documentElement.lang = lang;
+        document.getElementById('page-title').textContent = d.pageTitle;
+        document.getElementById('header-title').textContent = d.headerTitle;
+        document.getElementById('header-subtitle').textContent = d.headerSubtitle;
+        document.getElementById('lang-label').innerHTML = `<span aria-hidden="true">🌐</span> ${d.langLabel}`;
+        document.getElementById('sec1-title').textContent = d.sec1Title;
+        document.getElementById('mode-pve-title').textContent = d.modePveTitle;
+        document.getElementById('mode-pve-desc').textContent = d.modePveDesc;
+        document.getElementById('mode-pvp-title').textContent = d.modePvpTitle;
+        document.getElementById('mode-pvp-desc').textContent = d.modePvpDesc;
+        document.getElementById('sec2-title').textContent = d.sec2Title;
+        document.getElementById('sec2-intro').textContent = d.sec2Intro;
+        document.getElementById('tactic-win').textContent = d.tacticWin;
+        document.getElementById('tactic-block').textContent = d.tacticBlock;
+        document.getElementById('tactic-fork').textContent = d.tacticFork;
+        document.getElementById('tactic-center').textContent = d.tacticCenter;
+        document.getElementById('tactic-corner').textContent = d.tacticCorner;
+        document.getElementById('back-link').textContent = d.backLink;
+        if (langSelect.value !== lang) {
+          langSelect.value = lang;
+        }
+      }
+
+      if (langSelect) {
+        langSelect.addEventListener('change', (e) => {
+          const l = e.target.value;
+          currentLang = l;
+          try {
+            localStorage.setItem('ttt_lang', l);
+          } catch (err) {}
+          render(l);
+        });
+      }
+
+      render(currentLang);
+    })();
+  </script>
 </body>
 </html>

@@ -2,22 +2,34 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>井字遊戲教學示範（Tic-Tac-Toe）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title id="page-title">井字遊戲教學示範（Tic-Tac-Toe）</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="container">
     <header>
-      <h1>井字遊戲教學示範</h1>
-      <p class="subtitle">極小化極大演算法（Minimax）即時戰術分析</p>
-      <p class="subtitle">
-        <a href="help.html" style="color: #000000; font-weight: 700; text-decoration: underline;">查看遊戲說明與戰術指南（如何遊玩與閱讀建議）</a>
-      </p>
+      <h1 id="header-title">井字遊戲教學示範</h1>
+      <p class="subtitle" id="header-subtitle">極小化極大演算法（Minimax）即時戰術分析</p>
+      <div class="help-link-wrapper">
+        <a href="help.html" id="help-link" class="help-link">查看遊戲說明與戰術指南（如何遊玩與閱讀建議）</a>
+      </div>
     </header>
 
+    <section class="lang-bar" aria-label="語言切換 / Language Selection">
+      <label for="lang-select" class="lang-label" id="lang-label">
+        <span aria-hidden="true">🌐</span> 語言 / Language:
+      </label>
+      <select id="lang-select" class="lang-select" aria-labelledby="lang-label">
+        <option value="zh-Hant">繁體中文 (Chinese)</option>
+        <option value="en">English</option>
+        <option value="ja">日本語 (Japanese)</option>
+        <option value="id">Bahasa Indonesia</option>
+      </select>
+    </section>
+
     <section class="controls" aria-label="遊戲控制面板">
-      <div class="mode-group" role="group" aria-label="對戰模式選擇">
+      <div class="mode-group" role="group" aria-label="對戰模式選擇" id="mode-group">
         <button type="button" id="mode-pve" class="active" aria-pressed="true">
           單人對抗電腦
         </button>
@@ -72,7 +84,7 @@
     </section>
 
     <section class="advisor-box" id="advisor-box" aria-live="polite">
-      <div class="advisor-title">最佳步數建議與戰術解析（Minimax）</div>
+      <div class="advisor-title" id="advisor-title">最佳步數建議與戰術解析（Minimax）</div>
       <div class="advisor-move" id="advisor-move">建議下在第 5 格</div>
       <div class="advisor-reason" id="advisor-reason">
         戰術原因：佔領中心（第 5 格涵蓋 4 條連線方向，控制力最強）。

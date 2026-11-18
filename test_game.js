@@ -6,6 +6,8 @@ const vm = require('vm');
 const scriptPath = path.join(__dirname, 'script.js');
 const {
   WIN_LINES,
+  SUPPORTED_LANGUAGES,
+  TRANSLATIONS,
   evaluateBoard,
   getLegalMoves,
   getBestRecommendation,
@@ -223,3 +225,102 @@ dom.cells[5].click();
 assert.strictEqual(dom.cells[5]._markSpan.textContent, '', '遊戲結束後點擊不應產生棋子');
 
 console.log('✓ UI 狀態鎖定、計時器取消與重開行為測試全數通過！');
+
+console.log('=== 6. 測試多國語系支援（中文、英文、日文、印尼文） ===');
+assert.deepStrictEqual(
+  SUPPORTED_LANGUAGES,
+  ['zh-Hant', 'en', 'ja', 'id'],
+  '必須支援繁體中文、英文、日文與印尼文 4 種語系'
+);
+
+const testBoard = Array(9).fill(null);
+const langKeywords = {
+  'zh-Hant': { center: '佔領中心', win: '立即獲勝', block: '阻擋對手' },
+  'en': { center: 'Take the Center', win: 'Immediate Win', block: 'Block Opponent' },
+  'ja': { center: '中央を確保', win: '即時勝利', block: '相手の阻止' },
+  'id': { center: 'Kuasai Tengah', win: 'Menang Langsung', block: 'Blokir Lawan' },
+};
+
+for (const lang of SUPPORTED_LANGUAGES) {
+  // 中心
+  const recC = getBestRecommendation(testBoard, 'X', lang);
+  assert.strictEqual(recC.cellNumber, 5);
+  assert.ok(
+    recC.explanation.includes(langKeywords[lang].center),
+    `語系 ${lang} 的中心佔領說明必須包含 ${langKeywords[lang].center}`
+  );
+
+  // 立即獲勝
+  const winBoard = ['X', 'X', null, 'O', 'O', null, null, null, null];
+  const recW = getBestRecommendation(winBoard, 'X', lang);
+  assert.strictEqual(recW.cellNumber, 3);
+  assert.ok(
+    recW.explanation.includes(langKeywords[lang].win),
+    `語系 ${lang} 的立即獲勝說明必須包含 ${langKeywords[lang].win}`
+  );
+
+  // 阻擋對手
+  const blkBoard = ['X', 'X', null, null, 'O', null, null, null, null];
+  const recB = getBestRecommendation(blkBoard, 'O', lang);
+  assert.strictEqual(recB.cellNumber, 3);
+  assert.ok(
+    recB.explanation.includes(langKeywords[lang].block),
+    `語系 ${lang} 的阻擋說明必須包含 ${langKeywords[lang].block}`
+  );
+}
+
+// 測試 DOM 模擬環境切換語言
+const langSelect = {
+  id: 'lang-select',
+  value: 'zh-Hant',
+  addEventListener(type, fn) {
+    this._onchange = fn;
+  },
+  changeTo(val) {
+    this.value = val;
+    if (this._onchange) this._onchange({ target: { value: val } });
+  },
+};
+
+function createMultilingualDOM() {
+  const base = createMockDOM();
+  base.els['lang-select'] = langSelect;
+  base.els['lang-label'] = { innerHTML: '', textContent: '' };
+  base.els['page-title'] = { textContent: '' };
+  base.els['header-title'] = { textContent: '' };
+  base.els['header-subtitle'] = { textContent: '' };
+  base.els['help-link'] = { textContent: '' };
+  base.els['board'] = { setAttribute: () => {}, getAttribute: () => '' };
+  base.els['mode-group'] = { setAttribute: () => {}, getAttribute: () => '' };
+  base.document.documentElement = { lang: 'zh-Hant' };
+
+  const code = fs.readFileSync(scriptPath, 'utf8');
+  vm.runInNewContext(code, base);
+  return base;
+}
+
+const mlDom = createMultilingualDOM();
+
+// 預設為中文
+assert.strictEqual(mlDom.els['restart-btn'].textContent, '重新開始');
+assert.ok(mlDom.els['status-display'].textContent.includes('玩家 X'));
+
+// 切換至英文
+mlDom.els['lang-select'].changeTo('en');
+assert.strictEqual(mlDom.els['restart-btn'].textContent, 'Restart');
+assert.ok(mlDom.els['status-display'].textContent.includes('Player X'));
+assert.strictEqual(mlDom.document.documentElement.lang, 'en');
+
+// 切換至日文
+mlDom.els['lang-select'].changeTo('ja');
+assert.strictEqual(mlDom.els['restart-btn'].textContent, '最初からやり直す');
+assert.ok(mlDom.els['status-display'].textContent.includes('プレイヤー X'));
+assert.strictEqual(mlDom.document.documentElement.lang, 'ja');
+
+// 切換至印尼文
+mlDom.els['lang-select'].changeTo('id');
+assert.strictEqual(mlDom.els['restart-btn'].textContent, 'Mulai Ulang');
+assert.ok(mlDom.els['status-display'].textContent.includes('Pemain X'));
+assert.strictEqual(mlDom.document.documentElement.lang, 'id');
+
+console.log('✓ 多國語系（中文、英文、日文、印尼文）戰術說明與介面即時切換測試全數通過！');
